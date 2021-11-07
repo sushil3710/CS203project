@@ -1,0 +1,96 @@
+List of Products in the Vending machine and their prices
+Juice        --Rs.5
+Biscuits      --Rs.10
+Water Bottle --Rs.15
+Chips        --Rs.20
+
+Module Definition
+
+module Vending_machine
+(input clk, input rst, input [1:0] choice, input [1:0] in_mny, output reg [2:0] prd,output reg [1:0] chng);
+parameter S0=2'b00;
+parameter S1=2'b01;
+parameter S2=2'b10;
+parameter S3=2'b11;
+reg[1:0] c_state;
+reg[1:0] n_state;
+
+
+FUNCTIONALITY and SCOPING:
+
+The machine works on Mealy finite-state machine i.e output depends not only on current state but also on the input.So you will receive the product selected by you only if you have paid
+the minimum amount for that product.The excess amount will be given back as the change money.The change and the output product is known at every stage.
+
+INPUTS:
+1. Clock signal {clk}
+   All the workings will take place only on Positive edge of the clock.
+
+2. Reset(1 bit) {rst}
+   If reset is 1 then machine will start from initial state.
+
+3. Choice(2 bits) {choice}
+   In choice we have four options to select so we need atleast 2 bits to represent them,
+   these choices will be four different products to be chosen from the vending machine, they will be 
+   represented as:
+   1st product--00--Juice can
+   2nd product--01--Biscuits
+   3rd product--10--Water bottle
+   4th product--11--Chips packet
+
+4. Money(2 bits) {in_mny}
+   A vending machine can accept only Rs.5, Rs.10 and Rs.20 notes/coins or a no money option if there is 
+   no input of money. so we need atlest 2 bits to represent the money taken as input,
+   they will be represented as,
+   No money--00
+   Rs.5    --01
+   Rs.10   --10
+   Rs.20   --11
+
+OUTPUTS:
+1. Product recieved(3 bits) {prd}
+   There can be five product outputs, if a customer successfully completes the payment he will recieve his/her chosen
+   product among the four(four outputs) and if he fails to complete the payment he will recieve nothing(no product)
+   so there are total 5 outcomes of product recieved, so we need atleast 3 bits to represent them, 
+   they will be
+   1st Output--No product --000
+   2nd Output--1st product--001
+   3rd Output--2nd product--010
+   4th Output--3rd product--011
+   5th output--4th product--100
+
+2. Change recieved(2 bits) {chng}
+   A customer will recieve his/her money back if he/she exceeds the payment of the product chosen and also if 
+   he is unable to complete the payment of a given product in given time. Change recieved can be Rs.0, Rs.5, Rs.10 and 
+   Rs.15 to represent these change recieved we need atleast 2 bits, they will be represented as
+   Rs.0--00
+   Rs.5--01
+   Rs.10--10
+   Rs.15--11
+
+There will be four parameters representing the states of the machines,
+S0:Initial/Reset state 
+S1:Machine has recieved a total of Rs.5
+S2:Machine has recieved a total of Rs.10
+S3:Machine has recieved a total of Rs.15
+
+The two bit parameters c_state  and n_state will represent current state and next state respectively.
+
+
+
+Example-->
+If a customer choses to buy a product, let he/she wants to buy a water bottle(2'b10) of Rs.15 then first he/she would have to select the product on the machine and then start paying from 
+initial state S0, if he puts Rs.5 then the machine will reach in state S1 with prd output 000 and chng output 00, then he/she puts Rs.5 again then the machine will reach in state S2 with
+prd output 000 and chng output 00, now if he/she puts Rs.10 more then he/she has paid a total of Rs.20 for a water bottle of price Rs.15 so now the machine will return to state S0 with 
+prd output 010 and chng output 01.
+So the machine returns to the S0(reset) state in both the cases i.e when the minimum amount for the selected product is paid or when the user does not 
+respond or pay the minimum amount for the product he has selected.
+
+Similarly for every product case customer will recieve his/her product and change of money from the machine. 
+
+The aim of this project is to ease the process of buying and reducing the man labour at shop by a simple machine that accepts the payment and returns the product wanted by the customer. 
+
+
+
+   
+   
+   
