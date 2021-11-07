@@ -17,8 +17,7 @@ reg[1:0] n_state;
 
 FUNCTIONALITY and SCOPING:
 
-The machine works on Mealy finite-state machine i.e output depends not only on current state but also on the input.So you will receive the product selected by you only if you have paid
-the minimum amount for that product.The excess amount will be given back as the change money.The change and the output product is known at every stage.
+The machine works on Mealy finite-state machine i.e output depends not only on current state but also on the input.So you will receive the product selected by you only if you have paid the minimum amount for that product.The excess amount will be given back as the change money.The change and the output product is known at every stage.
 
 INPUTS:
 1. Clock signal {clk}
