@@ -1,0 +1,451 @@
+// Code your design here
+module vending_machine(clk,rst,choice,in_mny,prd,chng);
+  input clk;//clock signal
+  input rst;//reset 
+  input [1:0]choice;//choices input
+  input [1:0]in_mny;//input money
+  output reg[2:0]prd;//product output
+  output reg[1:0]chng;//change returned
+
+  //states
+  parameter s0=2'b00;
+  parameter s1=2'b01;
+  parameter s2=2'b10;
+  parameter s3=2'b11;
+  
+  reg[1:0]c_state;//current state
+  reg[1:0]n_state;//next state
+  
+  //choices
+  //choice 2'b00 represents an item juice pack of Rs.5
+  //choice 2'b01 represents an item Biscuit pack of Rs.10
+  //choice 2'b10 represents an item Water bottle of Rs.15
+  //choice 2'b11 represents an item Chips of Rs.20
+  
+  
+  //input money added to the machine
+  //in_mny 2'b00 reepresents Rs.0 is added to the machine
+  //in_mny 2'b01 reepresents Rs.5 is added to the machine
+  //in_mny 2'b10 reepresents Rs.10 is added to the machine
+  //in_mny 2'b11 reepresents Rs.20 is added to the machine
+  
+  //As ONLY notes of Rs.5, 10 or 20 are acceptable at a time 
+  
+  //products
+  //prd 3'b000 if nothing is recieved
+  //prd 3'b001 if choice 2'b00 is the product recieved
+  //prd 3'b010 if choice 2'b01 is the product recieved
+  //prd 3'b011 if choice 2'b10 is the product recieved
+  //prd 3'b100 if choice 2'b11 is the product recieved
+  
+  always @(posedge clk)//always oon positive edge of the clk
+    begin
+      if(rst==1)//when reset is 1 machine at initaial state always
+        begin
+          c_state=0;
+          n_state=0;
+        end
+      else
+        begin
+          c_state=n_state;
+          if(choice==0)//if the choice 2'b00 is made
+            begin
+             
+             case(c_state)
+              s0: if(in_mny==0)
+                  begin
+                   n_state=s0;
+                   prd=0;
+                   chng=0;
+                  end
+                  
+              else if(in_mny==2'b01)
+                  begin
+                    n_state=s0;
+                    prd=3'b001;
+                    chng=0;
+                  end
+                
+              else if( in_mny==2'b10)
+                  begin
+                    n_state=s0;
+                    prd=3'b001;
+                    chng=2'b01;
+                  end
+              
+              else if(in_mny==2'b11)
+                 begin
+                   n_state=s0;
+                   prd=3'b001;
+                   chng=2'b11;
+                 end
+               
+              default:begin
+                n_state=s0;
+                prd=0;
+                chng=0;
+              end
+              
+            endcase
+            end
+              
+          else if(choice==2'b01)//if choice 2'b01 is made
+           begin
+              
+           case(c_state)
+//            s0: if(in_mny==0)
+//                   begin
+//                    n_state=s0;
+//                    prd=0;
+//                    chng=0;
+//                   end
+                  
+              s0:if(in_mny==1)
+                  begin
+                    n_state=s1;
+                    prd=3'b000;
+                    chng=0;
+                  end
+                
+               else if(in_mny==2)
+                  begin
+                    n_state=s0;
+                    prd=3'b010;
+                    chng=2'b00;
+                  end
+              
+               else if(in_mny==3)
+                 begin
+                   n_state=s0;
+                   prd=3'b010;
+                   chng=2'b10;
+                 end   
+             
+               else 
+                 begin
+                 n_state=s0;
+                 prd=0;
+                 chng=0;
+                end
+
+//              s1: if(in_mny==0)
+//                   begin
+//                    n_state=s0;
+//                    prd=0;
+//                    chng=2'b01;
+//                   end
+                  
+              s1: if(in_mny==1)
+                  begin
+                    n_state=s0;
+                    prd=3'b010;
+                    chng=0;
+                  end
+                
+               else if( in_mny==2)
+                  begin
+                    n_state=s0;
+                    prd=3'b010;
+                    chng=2'b01;
+                  end
+              
+               else if(in_mny==3)
+                 begin
+                   n_state=s0;
+                   prd=3'b010;
+                   chng=2'b11;
+                 end
+              
+             else 
+               begin
+                 n_state=s0;
+                 prd=0;
+                 chng=2'b01;
+               end
+             
+              default:begin
+                n_state=s0;
+                prd=0;
+                chng=in_mny;
+              end             
+               endcase
+           end
+              
+          else if(choice==2'b10)//if choice 2'b10 is made
+           begin
+          case(c_state)
+//            s0: if(in_mny==0)
+//                   begin
+//                    n_state=s0;
+//                    prd=0;
+//                    chng=0;
+//                   end
+                  
+             s0:if(in_mny==1)
+                  begin
+                    n_state=s1;
+                    prd=3'b000;
+                    chng=0;
+                  end
+                
+               else if(in_mny==2)
+                  begin
+                    n_state=s2;
+                    prd=3'b000;
+                    chng=2'b00;
+                  end
+              
+               else if(in_mny==3)
+                 begin
+                   n_state=s0;
+                   prd=3'b011;
+                   chng=0;
+                 end  
+            
+            else
+              begin
+                n_state=s0;
+                prd=0;
+                chng=0;
+              end
+
+//            s1: if(in_mny==0)
+//                   begin
+//                    n_state=s0;
+//                    prd=0;
+//                     #6 chng=0;
+//                    chng=2'b01;
+//                   end
+                  
+               s1:if(in_mny==1)
+                  begin
+                    n_state=s2;
+                    prd=3'b000;
+                    #6 chng=0;
+                    chng=2'b10;
+                  end
+                
+               else if(in_mny==2)
+                  begin
+                    n_state=s0;
+                    prd=3'b011;
+                    chng=2'b00;
+                  end
+              
+               else if(in_mny==3)
+                 begin
+                   n_state=s0;
+                   prd=3'b011;
+                   chng=2'b10;
+                 end     
+              else
+                begin
+                  n_state=s0;
+                  prd=0;
+                  chng=2'b01;
+                end
+            
+//            s2: if(in_mny==0)
+//                   begin
+//                    n_state=s0;
+//                    prd=0;
+//                    chng=0;
+//                    chng=2'b10;
+//                   end
+                  
+               s2:if(in_mny==1)
+                  begin
+                    n_state=s0;
+                    prd=3'b011;
+                    chng=0;
+                  end
+                
+               else if(in_mny==2)
+                  begin
+                    n_state=s0;
+                    prd=3'b011;
+                    chng=2'b01;
+                  end
+              
+               else if(in_mny==3)
+                 begin
+                   n_state=s0;
+                   prd=3'b011;
+                   chng=2'b11;
+                 end              
+                  
+              else
+                begin
+                  n_state=s0;
+                  prd=0;
+                  chng=2'b10;
+                end
+            
+              default:begin
+                n_state=s0;
+                prd=0;
+                chng=0;
+              end
+            
+          endcase
+           end
+          
+              
+              
+          else if(choice==3)//if choice 2'b11 is made
+           begin
+
+          case(c_state)
+//            s0: if(in_mny==0)
+//                   begin
+//                    n_state=s0;
+//                    prd=0;
+//                    chng=0;
+//                   end
+                  
+              s0:if(in_mny==1)
+                  begin
+                    n_state=s1;
+                    prd=3'b000;
+                    chng=0;
+                  end
+                
+               else if(in_mny==2)
+                  begin
+                    n_state=s2;
+                    prd=3'b000;
+                    chng=2'b00;
+                  end
+              
+               else if(in_mny==3)
+                 begin
+                   n_state=s0;
+                   prd=3'b100;
+                   chng=2'b00;
+                 end              
+                  
+              else
+                begin
+                  n_state=0;
+                  prd=0;
+                  chng=0;
+                end
+            
+//            s1: if(in_mny==0)
+//                   begin
+//                    n_state=s0;
+//                    prd=0;
+//                    chng=2'b01;
+//                   end
+                  
+               s1:if(in_mny==1)
+                  begin
+                    n_state=s2;
+                    prd=3'b000;
+                    chng=0;
+                  end
+                
+               else if(in_mny==2)
+                  begin
+                    n_state=s3;
+                    prd=3'b000;
+                    chng=2'b00;
+                  end
+              
+               else if(in_mny==3)
+                 begin
+                   n_state=s0;
+                   prd=3'b100;
+                   chng=2'b01;
+                 end     
+              else
+                begin
+                  n_state=s0;
+                  prd=0;
+                  chng=2'b01;
+                end
+            
+//            s2: if(in_mny==0)
+//                   begin
+//                    n_state=s0;
+//                    prd=0;
+//                    chng=2'b10;
+//                   end
+                  
+               s2:if(in_mny==1)
+                  begin
+                    n_state=s3;
+                    prd=3'b000;
+                    chng=0;
+                  end
+                
+               else if(in_mny==2)
+                  begin
+                    n_state=s0;
+                    prd=3'b100;
+                    chng=2'b00;
+                  end
+              
+               else if(in_mny==3)
+                 begin
+                   n_state=s0;
+                   prd=3'b100;
+                   chng=2'b10;
+                 end  
+               
+              else
+                begin
+                  n_state=s0;
+                  prd=0;
+                  chng=2'b10;
+                end
+              
+//            s3: if(in_mny==0)
+//                   begin
+//                    n_state=s0;
+//                    prd=0;
+//                    chng=2'b11;
+//                   end
+                  
+               s3:if(in_mny==1)
+                  begin
+                    n_state=s0;
+                    prd=3'b100;
+                    chng=0;
+                  end
+                
+               else if(in_mny==2)
+                  begin
+                    n_state=s0;
+                    prd=3'b100;
+                    chng=2'b01;
+                  end
+              
+               else if(in_mny==3)
+                 begin
+                   n_state=s0;
+                   prd=3'b100;
+                   chng=2'b11;
+                 end   
+              
+              else
+                begin
+                  n_state=s0;
+                  prd=0;
+                  chng=2'b11;
+                end
+            
+              default:begin
+                n_state=s0;
+                prd=0;
+                chng=in_mny;
+              end           
+          endcase
+end
+        end
+          
+end
+endmodule
+      
+            
+  
