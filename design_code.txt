@@ -93,12 +93,7 @@ module vending_machine(clk,rst,choice,in_mny,prd,chng);
            begin
               
            case(c_state)
-//            s0: if(in_mny==0)
-//                   begin
-//                    n_state=s0;
-//                    prd=0;
-//                    chng=0;
-//                   end
+
                   
               s0:if(in_mny==1)
                   begin
@@ -128,12 +123,6 @@ module vending_machine(clk,rst,choice,in_mny,prd,chng);
                  chng=0;
                 end
 
-//              s1: if(in_mny==0)
-//                   begin
-//                    n_state=s0;
-//                    prd=0;
-//                    chng=2'b01;
-//                   end
                   
               s1: if(in_mny==1)
                   begin
@@ -174,12 +163,7 @@ module vending_machine(clk,rst,choice,in_mny,prd,chng);
           else if(choice==2'b10)//if choice 2'b10 is made
            begin
           case(c_state)
-//            s0: if(in_mny==0)
-//                   begin
-//                    n_state=s0;
-//                    prd=0;
-//                    chng=0;
-//                   end
+
                   
              s0:if(in_mny==1)
                   begin
@@ -209,20 +193,13 @@ module vending_machine(clk,rst,choice,in_mny,prd,chng);
                 chng=0;
               end
 
-//            s1: if(in_mny==0)
-//                   begin
-//                    n_state=s0;
-//                    prd=0;
-//                     #6 chng=0;
-//                    chng=2'b01;
-//                   end
+
                   
                s1:if(in_mny==1)
                   begin
                     n_state=s2;
                     prd=3'b000;
-                    #6 chng=0;
-                    chng=2'b10;
+                    chng=0;
                   end
                 
                else if(in_mny==2)
@@ -245,13 +222,7 @@ module vending_machine(clk,rst,choice,in_mny,prd,chng);
                   chng=2'b01;
                 end
             
-//            s2: if(in_mny==0)
-//                   begin
-//                    n_state=s0;
-//                    prd=0;
-//                    chng=0;
-//                    chng=2'b10;
-//                   end
+
                   
                s2:if(in_mny==1)
                   begin
@@ -296,12 +267,7 @@ module vending_machine(clk,rst,choice,in_mny,prd,chng);
            begin
 
           case(c_state)
-//            s0: if(in_mny==0)
-//                   begin
-//                    n_state=s0;
-//                    prd=0;
-//                    chng=0;
-//                   end
+
                   
               s0:if(in_mny==1)
                   begin
@@ -331,12 +297,7 @@ module vending_machine(clk,rst,choice,in_mny,prd,chng);
                   chng=0;
                 end
             
-//            s1: if(in_mny==0)
-//                   begin
-//                    n_state=s0;
-//                    prd=0;
-//                    chng=2'b01;
-//                   end
+
                   
                s1:if(in_mny==1)
                   begin
@@ -365,12 +326,7 @@ module vending_machine(clk,rst,choice,in_mny,prd,chng);
                   chng=2'b01;
                 end
             
-//            s2: if(in_mny==0)
-//                   begin
-//                    n_state=s0;
-//                    prd=0;
-//                    chng=2'b10;
-//                   end
+
                   
                s2:if(in_mny==1)
                   begin
@@ -400,13 +356,7 @@ module vending_machine(clk,rst,choice,in_mny,prd,chng);
                   chng=2'b10;
                 end
               
-//            s3: if(in_mny==0)
-//                   begin
-//                    n_state=s0;
-//                    prd=0;
-//                    chng=2'b11;
-//                   end
-                  
+
                s3:if(in_mny==1)
                   begin
                     n_state=s0;
