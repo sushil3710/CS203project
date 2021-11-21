@@ -11,7 +11,7 @@ Water Bottle --Rs.15
 Chips        --Rs.20
 
 We have taken  5 cases for this vending machine design module and created 5 testbenches for them.
-the cases are given below:
+The cases are given below:
 
 Case:1->
   if we choose a product of Rs.5
